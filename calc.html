@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+#inps{border-style:none;}
+body{width:250px; margin:auto;}
+#inps{width:200px;font-size:15px;}
+div{font-size:20px;}
+p{display:inline;}
+</style>
+<script type="text/javascript">
+var inputs=new Array();
+var inputsW=new Array();
+var counter=0;
+var summ=parseFloat(0);
+var typeData="normal";
+var counter2="0";
+var hh=0;
+var yes="0";
+
+
+
+
+
+
+<!-------------------------------SCore Object//----------------------------------------->
+
+var SCore=new Object();
+
+<!--------Sum //------------->
+SCore.sum=function (){
+summ=0;
+for(i=0;i<inputs.length;i++){summ+=inputs[i];};
+return summ;
+};
+<!--------mean.arithmetic //------------->
+SCore.meanAri=function(){
+ss=SCore.sum();
+len=inputs.length;
+ave=ss/len;
+return ave;
+};
+
+<!--------mean.geometric //------------->
+SCore.meanGeo=function (){
+mego=0;
+for(i=0;i<inputs.length;i++){mego+=Math.log(inputs[i])/Math.log(10);};
+len=inputs.length;
+mg=mego/len;
+mg=Math.pow(10,mg);
+return mg;
+};
+
+<!--------mean.harmonic //------------->
+SCore.meanHar=function(){
+ss=0;
+for(i=0;i<inputs.length;i++){ss+=1/inputs[i];};
+len=inputs.length;
+har=len/ss;
+return har;
+};
+
+<!--------mean.weighted //------------->
+SCore.meanWei=function(){
+var xw=parseFloat(0);
+var w=parseInt(0);
+for(i=0;i<inputs.length;i++){xw+=inputs[i]*inputsW[i];};
+for(i=0;i<inputs.length;i++){w+=inputsW[i];};
+wei=xw/w;
+return wei;
+};
+
+<!--------factorial //------------->
+SCore.factorial=function(){
+var factt=inputs[0]-1;
+var fact=inputs[0];
+var fact1=0;
+var fact2=inputs[0]-1;
+var fact3=1;
+for(i=0;i<factt;i++){
+	
+	fact2=fact*fact2;
+		if(fact1==0){fact=fact-1;fact1=1;};
+	fact=fact-1;
+	};
+
+
+return fact2;
+};
+
+
+
+
+<!--------variance n-1 //------------->
+SCore.variance=function(){
+var n=inputs.length;
+var sx=parseFloat(0);
+var ssx=SCore.sum();
+var ss=parseFloat(0);
+var ms=parseFloat(0);
+ssx=ssx*ssx;
+ssx=ssx/n;
+for(i=0;i<inputs.length;i++){x=inputs[i]*inputs[i];sx+=x;};
+ss=sx-ssx;
+n=n-1;
+ms=ss/n;
+return ms;
+};
+
+
+<!--------variance n //------------->
+SCore.variancen=function(){
+var n=inputs.length;
+var sx=parseFloat(0);
+var ssx=SCore.sum();
+var ss=parseFloat(0);
+var ms=parseFloat(0);
+ssx=Math.pow(ssx,2);
+ssx=ssx/n;
+for(i=0;i<inputs.length;i++){x=Math.pow(inputs[i],2);sx+=x;};
+ss=sx-ssx;
+
+ms=ss/n;
+return ms;
+};
+
+
+
+<!--------sum of squares //------------->
+SCore.ss=function(){
+
+var sx=parseFloat(0);
+
+for(i=0;i<inputs.length;i++){x=Math.pow(inputs[i],2);sx+=x;};
+
+return sx;
+};
+
+
+
+<!--------Degree of freedom //------------->
+SCore.df=function(){
+
+var n=inputs.length;
+n=n-1;
+return n;
+}
+<!-------------------------------END//----------------------------------------->
+
+
+
+
+
+
+
+
+
+<!-------------------------------Select The Function//----------------------------------------->
+function func(){
+	if(yes=="1"){document.getElementById("inps").value="";yes="2";}
+	if(yes=="0"){
+		
+		switch(document.getElementById("inps").value){
+			case "length":
+				document.getElementById("inps").value=inputs.length;
+				yes="1";
+				break;
+			case "sum":
+				s=SCore.sum();
+				document.getElementById("inps").value=s;
+				yes="1";
+				;break;
+			case "mean.a":
+				mmaa=SCore.meanAri();
+				document.getElementById("inps").value=mmaa;
+				yes="1";
+				break
+			case "mean.h":
+				hhrr=SCore.meanHar();
+				document.getElementById("inps").value=hhrr;
+				yes="1";
+				break;
+			case "mean.g":
+				mmgg=SCore.meanGeo();
+				document.getElementById("inps").value=mmgg;
+				yes="1";
+				break;
+			case "mean.w":
+				xxww=SCore.meanWei();
+				document.getElementById("inps").value=xxww;
+				yes="1";
+				break;
+			case "max":
+				
+				document.getElementById("inps").value=Math.max.apply(Math,inputs);
+				yes="1";
+				break;
+			case "min":
+				
+				document.getElementById("inps").value=Math.min.apply(Math,inputs);
+				yes="1";
+				break;
+			case "!":
+				ffaacctt=SCore.factorial();
+				document.getElementById("inps").value=ffaacctt;
+				yes="1";
+				break;
+			case "varn-1":
+				vvaarr=SCore.variance();
+				document.getElementById("inps").value=vvaarr;
+				yes="1";
+				break;
+			case "varn":
+				vvaarr=SCore.variancen();
+				document.getElementById("inps").value=vvaarr;
+				yes="1";
+				break;
+			case "ss":
+				ssuummss=SCore.ss();
+				document.getElementById("inps").value=ssuummss;
+				yes="1";
+				break;
+			case "df":
+				dddfff=SCore.df();
+				document.getElementById("inps").value=dddfff;
+				yes="1";
+				break;
+			case "w":
+				typeData="weighted";
+			   yes="1"; 
+				break;
+			default:
+				
+				getInps();
+		};
+	}
+	
+	if(yes=="2"){yes="0"}
+	
+	
+};
+<!-------------------------------END//----------------------------------------->
+
+
+
+
+
+<!-------------------------------Get Inputs//----------------------------------------->
+function getInps(){
+if(typeData=="normal"){
+	if(counter<9){ddd="0"}else{ddd=""}
+	inputs[counter]=parseFloat(document.getElementById("inps").value);
+	document.getElementById("showInps").innerHTML+=ddd+parseInt(counter+1) + " : "+inputs[counter]+"<br>";
+	counter+=1;
+	document.getElementById("inps").value="";
+}
+else{
+	if(counter2=="0"){
+	inputs[counter]=parseFloat(document.getElementById("inps").value);
+	if(counter<9){ddd="0"}else{ddd=""}
+	document.getElementById("showInps").innerHTML+=ddd+parseInt(counter+1) + " : "+"[X : "+inputs[counter]+"]";
+	document.getElementById("inps").value="";
+	}
+	else{
+	inputsW[counter]=parseInt(document.getElementById("inps").value);
+	document.getElementById("showInps").innerHTML+=" [W : "+inputsW[counter]+"]"+"<br>";
+	counter+=1;
+	document.getElementById("inps").value="";
+	}
+	if(counter2=="0"){document.getElementById("dt").innerHTML="W :";counter2="1";}else{document.getElementById("dt").innerHTML="X :";counter2="0";}
+}
+};
+<!-------------------------------END//----------------------------------------->
+
+
+function ff(){
+document.getElementById("inps").focus();
+};
+</script>
+</head>
+<body onload="ff()">
+<p id="dt">X :</p>
+<input id="inps" type="input" onKeydown="Javascript: if (event.keyCode==13) func();"></input><hr><br>
+<div id="showInps"></div>
+
+</body>
+</html>
